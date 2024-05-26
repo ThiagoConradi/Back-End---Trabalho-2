@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+}
+header h1 {
+    margin: 0;
+}
+header nav a {
+    color: white;
+    margin-left: 10px;
+    text-decoration: none;
+}
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+.container {
+    padding: 20px;
+    padding-bottom: 60px; /* espaço para o rodapé */
+}
+.new-post-button {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.post {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.post .title {
+    font-size: 1.2em;
+    margin: 0;
+}
+.post .like {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.post .like .heart {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background: url('heart.png') no-repeat center center;
+    background-size: contain;
+}
+.post .like .heart.liked {
+    background: url('heart-filled.png') no-repeat center center;
+    background-size: contain;
+}
