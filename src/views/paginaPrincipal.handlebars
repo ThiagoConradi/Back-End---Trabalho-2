@@ -19,3 +19,29 @@
     <footer>
         Desenvolvedores: Thiago Büttner Conradi, Pablo Southier
     </footer>
+
+<div id="postModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2 id="modal-title">Título do Post</h2>
+                <span id="modal-likes">0 Curtidas</span>
+            </div>
+            <div class="modal-body">
+                <div class="post-info">
+                    <span id="modal-author">Autor: Fulano</span>
+                    <span id="modal-time">Horário: 12:00</span>
+                </div>
+                <div class="post-description" id="modal-description">
+                    Descrição do post aqui...
+                </div>
+                <div class="comments" id="modal-comments">
+                    <!-- Comentários serão inseridos aqui via JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="text" id="comment-input" placeholder="Adicionar um comentário...">
+                <button id="comment-button">&#9993;</button>
+            </div>
+        </div>
+    </div>
