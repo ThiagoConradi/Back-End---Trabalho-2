@@ -5,7 +5,13 @@ router.get('/', (req, res) => {
   res.status(200).render("paginaPrincipal")
 })
 
-const produtosRoutes = require('./produtos');
-router.use('/produtos', produtosRoutes);
+router.get('/login', (req, res) => {
+  res.status(200).render("login")
+})
+
+router.get('/cadastroUsuario', (req, res) => {
+  res.status(200).render("cadastroUsuario")
+})
 
 module.exports = router;
+
