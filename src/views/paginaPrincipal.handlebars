@@ -1,9 +1,19 @@
-<link rel="stylesheet" href="paginaPrincipal.css">  
-<header>
-        <h1>Fórum Senai</h1>
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórum Senai</title>
+    <link rel="stylesheet" href="/css/paginaPrincipal.css">
+</head>
+
+<body>
+    <header>
+        <h1><a href="http://localhost:3000" id="home">Fórum Senai</a></h1>
         <nav>
-            <a href="#" id="login">Login</a>
-            <a href="#" id="signup">Cadastrar</a>
+            <a href="http://localhost:3000/login" id="login">Login</a>
+            <a href="http://localhost:3000/cadastroUsuario" id="signup">Cadastrar</a>
             <span id="user-info" style="display: none;">
                 <a href="#" id="username"></a>
                 <a href="#" id="logout">Deslogar</a>
@@ -20,7 +30,7 @@
         Desenvolvedores: Thiago Büttner Conradi, Pablo Southier
     </footer>
 
-<div id="postModal" class="modal">
+    <div id="postModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <div class="modal-header">
@@ -45,3 +55,6 @@
             </div>
         </div>
     </div>
+</body>
+
+</html>
