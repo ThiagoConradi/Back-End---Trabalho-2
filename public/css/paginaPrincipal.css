@@ -1,68 +1,201 @@
+/* paginaPrincipal.css */
+
 body {
     font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
     margin: 0;
     padding: 0;
 }
+
 header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
 }
+
 header h1 {
     margin: 0;
 }
-header nav a {
+
+nav a {
     color: white;
-    margin-left: 10px;
+    margin-left: 15px;
     text-decoration: none;
+    font-weight: bold;
 }
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #333;
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.botao-novo-post {
+    display: inline-block;
+    background-color: #007bff;
     color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.botao-novo-post:hover {
+    background-color: #0056b3;
+}
+
+.post {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post .titulo {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.curtir {
+    display: flex;
+    align-items: center;
+}
+
+.coracao {
+    width: 24px;
+    height: 24px;
+    background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.coracao.curtido {
+    background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center center;
+    background-size: contain;
+    filter: invert(34%) sepia(87%) saturate(7472%) hue-rotate(338deg) brightness(97%) contrast(108%);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-conteudo {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.modal .fechar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal .fechar:hover,
+.modal .fechar:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.modal-corpo {
+    margin-bottom: 10px;
+}
+
+.modal-corpo .info-post {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.modal-corpo .descricao-post {
+    margin-top: 10px;
+}
+
+.comentarios {
+    margin-top: 20px;
+}
+
+.comentario {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.modal-rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#input-comentario {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+#botao-comentario {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#botao-comentario:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
     position: fixed;
     width: 100%;
     bottom: 0;
-}
-.container {
-    padding: 20px;
-    padding-bottom: 60px; /* espaço para o rodapé */
-}
-.new-post-button {
-    display: inline-block;
-    padding: 10px 15px;
-    margin-bottom: 20px;
-    background-color: #28a745;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-}
-.post {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-.post .title {
-    font-size: 1.2em;
-    margin: 0;
-}
-.post .like {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-.post .like .heart {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-    background: url('heart.png') no-repeat center center;
-    background-size: contain;
-}
-.post .like .heart.liked {
-    background: url('heart-filled.png') no-repeat center center;
-    background-size: contain;
+    left: 0;
 }
