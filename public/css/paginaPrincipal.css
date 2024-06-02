@@ -61,6 +61,7 @@ nav a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-align: justify;
 }
 
 .post .titulo {
