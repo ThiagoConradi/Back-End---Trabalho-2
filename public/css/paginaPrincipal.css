@@ -102,53 +102,101 @@ nav a:hover {
 }
 
 .modal-conteudo {
-    background-color: white;
+    background-color: #fefefe;
     margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     max-width: 600px;
     border-radius: 8px;
-    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: animacaoModal 0.3s;
 }
 
-.modal .fechar {
-    position: absolute;
-    top: 10px;
-    right: 15px;
+@keyframes animacaoModal {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+.fechar {
     color: #aaa;
-    font-size: 24px;
+    float: right;
+    font-size: 28px;
     font-weight: bold;
-    cursor: pointer;
 }
 
-.modal .fechar:hover,
-.modal .fechar:focus {
-    color: black;
+.fechar:hover,
+.fechar:focus {
+    color: #000;
     text-decoration: none;
     cursor: pointer;
 }
 
 .modal-cabecalho {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
     padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
 }
 
-.modal-corpo {
-    margin-bottom: 10px;
+.modal-cabecalho h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
 }
 
-.modal-corpo .info-post {
-    font-size: 0.9em;
+.modal-corpo label {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 600;
     color: #555;
 }
 
-.modal-corpo .descricao-post {
-    margin-top: 10px;
+.modal-corpo input[type="text"],
+.modal-corpo textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #555;
+}
+
+.modal-corpo textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+
+/* Rodapé da modal */
+
+.modal-rodape {
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+#botao-criar-post {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#botao-criar-post:hover {
+    background-color: #218838;
 }
 
 .comentarios {
@@ -184,6 +232,13 @@ nav a:hover {
     margin-left: 10px;
     border-radius: 4px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#botao-comentario i {
+    margin-left: 5px;
 }
 
 #botao-comentario:hover {
