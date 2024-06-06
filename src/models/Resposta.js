@@ -13,6 +13,7 @@ class Resposta extends Model {
     // Associação com a classe Usuario
     static associate(models) {
         this.belongsTo(models.Usuario, { foreignKey: 'idUsuario', as: 'autor' });
+        this.belongsTo(models.Postagem, { foreignKey: 'idResposta', as: 'autor' });
     }
 }
 

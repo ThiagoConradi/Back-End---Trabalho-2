@@ -13,6 +13,8 @@ class Postagem extends Model {
   // Associação com a classe Usuario
   static associate(models) {
     this.belongsTo(models.Usuario, { foreignKey: 'idUsuario', as: 'autor' });
+    this.hasMany(models.Curtida, { foreignKey: 'idPostagem', as: 'curtidas' });
+    this.hasMany(models.Curtida, { foreignKey: 'idPostagem', as: 'respostas' })
   }
 }
 

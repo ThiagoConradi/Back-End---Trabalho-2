@@ -6,9 +6,10 @@ const { Model, DataTypes } = require('sequelize');
 class Curtida extends Model {
   // Aqui deve vir os métodos que essa classe pode executar
 
-  // Associação com a classe Postagem
+  // Associação com as classes
   static associate(models) {
-    this.hasMany(models.Postagem, { foreignKey: 'idCurtida', as: 'curtida' });
+    this.hasMany(models.Postagem, { foreignKey: 'idUsuario', as: 'postagem' });
+    this.hasMany(models.Usuario, { foreignKey: 'idUsuario', as: 'usuarios' });
   }
 }
 
