@@ -77,16 +77,14 @@ nav a:hover {
 .coracao {
     width: 24px;
     height: 24px;
-    background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center center;
     background-size: contain;
     cursor: pointer;
     margin-right: 5px;
 }
 
 .coracao.curtido {
-    background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center center;
     background-size: contain;
-    filter: invert(34%) sepia(87%) saturate(7472%) hue-rotate(338deg) brightness(97%) contrast(108%);
+    color: red;
 }
 
 .modal {

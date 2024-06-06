@@ -119,7 +119,8 @@
                     postElement.innerHTML = `
                         <div class="titulo">${post.titulo}</div>
                         <div class="curtir">
-                            <div class="coracao" data-curtido="false"></div>
+                            <!--<div class="coracao" data-curtido="false"></div> -->
+                            <i class="coracao bi bi-heart"></i>
                             <span class="contagem-curtidas">${post.curtidas}</span>
                         </div>
                     `;
@@ -137,10 +138,14 @@
                         if (curtido) {
                             this.setAttribute("data-curtido", "false");
                             this.classList.remove("curtido");
+                            this.classList.remove("bi-heart-fill");
+                            this.classList.add("bi-heart")
                             contagemCurtidasElement.textContent = contagemCurtidas - 1;
                         } else {
                             this.setAttribute("data-curtido", "true");
                             this.classList.add("curtido");
+                            this.classList.add("bi-heart-fill")
+                            this.classList.remove("bi-heart")
                             contagemCurtidasElement.textContent = contagemCurtidas + 1;
                         }
                     });
