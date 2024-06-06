@@ -187,70 +187,70 @@ db.sequelize.sync({ force: true }).then(async () => {
   })
 
   // Adicionando as Respostas
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 1,
     idPostagem: 10,
     conteudo: "Resposta do décimo post",
     dataHora: new Date('2020-11-11T03:24:00')
   });
 
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 2,
     idPostagem: 9,
     conteudo: "Resposta do nono post",
     dataHora: new Date('2020-11-11T03:24:00')
   });
 
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 3,
     idPostagem: 8,
     conteudo: "Resposta do oitavo post",
     dataHora: new Date('2020-11-11T03:24:00')
   });
 
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 4,
     idPostagem: 7,
     conteudo: "Resposta do sétimo post",
     dataHora: new Date('2020-11-11T03:24:00')
   });
 
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 5,
     idPostagem: 6,
     conteudo: "Resposta do sexto post",
     dataHora: new Date('2020-11-11T03:24:00')
   });
 
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 6,
     idPostagem: 5,
     conteudo: "Resposta do quinto post",
     dataHora: new Date('2020-11-11T03:24:00')
   });
 
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 7,
     idPostagem: 4,
     conteudo: "Resposta do quarto post",
     dataHora: new Date('2020-11-11T03:24:00')
   });
 
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 8,
     idPostagem: 3,
     conteudo: "Resposta do terceiro post",
     dataHora: new Date('2020-11-11T03:24:00')
   });
 
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 9,
     idPostagem: 2,
     conteudo: "Resposta do segundo post",
     dataHora: new Date('2020-11-11T03:24:00')
   });
 
-  let post = await PostagemDAO.create({
+  let resposta = await RespostaDAO.create({
     idUsuario: 10,
     idPostagem: 1,
     conteudo: "Resposta do primeiro post",
