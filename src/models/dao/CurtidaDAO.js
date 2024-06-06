@@ -13,6 +13,17 @@ class CurtidaDAO {
         }
     }
 
+    async getAll() {
+        let curtida;
+        try {
+            curtida = await Curtida.findAll();
+        } catch (error) {
+            console.error('Erro ao buscar curtidas:', error);
+        } finally {
+            return curtida;
+        }
+    }
+
     // Busca uma curtida no banco de dados pela sua ID
     async getById(CurtidaId) {
         let curtida;
