@@ -13,4 +13,8 @@ router.get('/cadastroUsuario', (req, res) => {
     res.status(200).render("cadastroUsuario")
 })
 
+router.post('/cadastroUsuario', (req, res) => {
+    res.status(200).render("paginaPrincipal")
+})
+
 module.exports = router;
