@@ -14,11 +14,16 @@
     <header>
         <h1>Fórum Senai</h1>
         <nav>
+            {{#if usuarioLogado}}
+            <a href="#" id="nome-usuario">{{usuarioLogado.nome}}</a>
+            <a href="#" id="deslogar">Deslogar</a>
+            {{else}}
             <a href="http://localhost:3000/login" id="login">Login</a>
             <a href="http://localhost:3000/cadastroUsuario" id="cadastro">Cadastrar</a>
+            {{/if}}
+
             <span id="info-usuario" style="display: none;">
-                <a href="#" id="nome-usuario"></a>
-                <a href="#" id="deslogar">Deslogar</a>
+
             </span>
         </nav>
     </header>
