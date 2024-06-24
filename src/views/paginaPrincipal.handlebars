@@ -19,7 +19,7 @@
             <a href="/deslogar" id="deslogar">Deslogar</a>
             {{else}}
             <a href="http://localhost:3000/login" id="login">Login</a>
-            <a href="http://localhost:3000/cadastroUsuario" id="cadastro">Cadastrar</a>
+            <a href="/cadastroUsuario" id="cadastro">Cadastrar</a>
             {{/if}}
 
             <span id="info-usuario" style="display: none;">
@@ -91,7 +91,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             if (usuarioLogado) {
                 document.getElementById("login").style.display = "none";
-                document.getElementById("cadastro").style.display = "none";
+                document.getElementById("cadastro").style.display = cadastroUsuario;
                 document.getElementById("nome-usuario").textContent = nomeUsuario;
                 document.getElementById("info-usuario").style.display = "inline";
             }

@@ -15,7 +15,6 @@ async function getUsuarioLogado(req) {
 
 router.get('/', async(req, res) => {
     await getUsuarioLogado(req)
-    console.log(usuarioLogado.get())
     if (usuarioLogado) {
         res.status(200).render("paginaPrincipal", {
             usuarioLogado: usuarioLogado.get()
@@ -60,8 +59,19 @@ router.get('/cadastroUsuario', (req, res) => {
     res.status(200).render("cadastroUsuario")
 })
 
-router.post('/cadastroUsuario', (req, res) => {
-    res.status(200).render("paginaPrincipal")
+router.post('/cadastrar', async(req, res) => {
+    let nome = req.body.nome;
+    let email = req.body.email;
+    let senha = req.body.senha;
+
+    const usuario = await Usuario.findOne({ where: { email: email } });
+
+    if (usuario) {
+        res.status(404).send("Usuário já cadastrado")
+    } else {
+        await UsuarioDAO.create({ nome, email, senha })
+        res.status(200).render("paginaPrincipal")
+    }
 })
 
 module.exports = router;
