@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fórum Senai</title>
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <link href='https://fonts.googleapis.com/css?family=ADLaM Display' rel='stylesheet'>
 </head>
 
 <body>
     <header>
         <h1>Fórum Senai</h1>
         <nav>
+            <a href="#" id="nome-usuario"></a>
             {{#if usuarioLogado}}
-            <a href="#" id="nome-usuario">{{usuarioLogado.nome}}</a>
+            {{usuarioLogado.nome}}
             <a href="/deslogar" id="deslogar">Deslogar</a>
             {{else}}
             <a href="http://localhost:3000/login" id="login">Login</a>
@@ -26,6 +26,7 @@
 
             </span>
         </nav>
+
     </header>
     <div class="container">
         <a href="#" class="botao-novo-post">Criar Novo Post</a>
@@ -34,17 +35,13 @@
         </div>
     </div>
     <footer>
-        Desenvolvedores: Thiago Büttner Conradi, Pablo Southier
+        SITUAÇÃO DE APRENDIZAGEM | Desenvolvedores: Thiago Büttner Conradi, Pablo Southier
     </footer>
 
     <!-- Modal para exibir post -->
-    <ul>
-        {{#each posts}}
-        <li><a href="/?post={{this.id}}">{{this.titulo}}</a></li>
-        {{/each}}
-    </ul>
 
-    {{#if post}}
+
+    {{#if posts}}
     <div id="modalPost" class="modal">
         <div class="modal-conteudo">
             <span class="fechar">&times;</span>
@@ -55,14 +52,13 @@
             <div class="modal-corpo">
                 <div class="info-post">
                     <span id="modal-autor">{{post.autor}}</span>
-                    <span id="modal-horario">{{post.dataHora}}</span>
+                    <span id="modal-horario">{{post.horario}}</span>
                 </div>
                 <div class="descricao-post" id="modal-descricao">
-                    {{post.conteudo}}
+                    {{post.descricao}}
                 </div>
                 <div class="comentarios" id="modal-comentarios">
                     <!-- Comentários  -->
-                    {{#each post.comentarios}}
                 </div>
             </div>
             <div class="modal-rodape">
@@ -71,6 +67,7 @@
             </div>
         </div>
     </div>
+    {{/if}}
 
     <!-- Modal para criar novo post -->
     <div id="modalNovoPost" class="modal">
@@ -103,8 +100,6 @@
                 document.getElementById("nome-usuario").textContent = nomeUsuario;
                 document.getElementById("info-usuario").style.display = "inline";
             }
-
-
 
             const postsContainer = document.getElementById("posts");
 
@@ -245,7 +240,7 @@
         });
 
         document.addEventListener("DOMContentLoaded", () => {
-            const modal = document.getElementById("paginaPrincipal");
+            const modal = document.getElementById("postDetailModal");
             const bootstrapModal = new bootstrap.Modal(modal);
             bootstrapModal.show();
         });

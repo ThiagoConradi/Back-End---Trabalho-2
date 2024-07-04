@@ -36,7 +36,6 @@ class App {
             jwt.verify(token, 'chave_secreta', (err, user) => { // Verificando o token
                 if (user) req.id = user.id // Se o token for válido, o ID do usuário é anexado ao objeto de solicitação
             });
-            console.log("token", token)
             next() // Chamando a próxima função no pipeline do middleware
         })
     }
