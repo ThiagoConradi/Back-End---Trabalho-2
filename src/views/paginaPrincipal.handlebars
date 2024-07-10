@@ -39,8 +39,6 @@
     </footer>
 
     <!-- Modal para exibir post -->
-
-
     {{#if posts}}
     <div id="modalPost" class="modal">
         <div class="modal-conteudo">
@@ -89,9 +87,6 @@
     </div>
 
     <script>
-        // Simulação de estado do usuário
-        const usuarioLogado = false; // Altere para true se quiser simular um usuário logado
-        const nomeUsuario = "Thiago Büttner Conradi";
 
         document.addEventListener("DOMContentLoaded", function () {
             if (usuarioLogado) {
@@ -238,11 +233,6 @@
                 }
             });
         });
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const modal = document.getElementById("postDetailModal");
-            const bootstrapModal = new bootstrap.Modal(modal);
-            bootstrapModal.show();
         });
 
     </script>
