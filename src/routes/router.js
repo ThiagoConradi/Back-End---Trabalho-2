@@ -1,9 +1,11 @@
 const { Router } = require("express");
 const router = new Router();
 const Usuario = require("../models/Usuario");
+const Postagem = require("../models/Postagem")
 const jwt = require('jsonwebtoken');
 const UsuarioDAO = require("../models/dao/UsuarioDAO");
 const PostagemDAO = require("../models/dao/PostagemDAO");
+
 
 
 // Variável para armazenar o usuário logado
@@ -17,13 +19,33 @@ async function getUsuarioLogado(req) {
 
 router.get('/', async(req, res) => {
     await getUsuarioLogado(req)
+    let postagens = await PostagemDAO.getAll()
+
+    if (postagens) postagens = postagens.map(postagens => postagens.get())
+
+    const idPost = req.query.idPost;
+    let postAberto
+
+    if (idPost) {
+        postAberto = await PostagemDAO.getById(idPost)
+        if (postAberto) {
+            postAberto = postAberto.get()
+            postAberto.autor = await (await UsuarioDAO.getById(postAberto.idUsuario)).get().nome
+            postAberto.dataHora = new Date().toLocaleString('pt-BR', { timezone: 'UTC' });
+        }
+    }
+
     if (usuarioLogado) {
         res.status(200).render("paginaPrincipal", {
-            usuarioLogado: usuarioLogado.get()
+            usuarioLogado: usuarioLogado.get(),
+            postagens: postagens,
+            postAberto: postAberto
         })
     } else {
-        res.status(200).render("paginaPrincipal")
+        res.status(200).render("paginaPrincipal", { postagens: postagens, postAberto: postAberto })
     }
+
+
 })
 
 router.get('/login', (req, res) => {
@@ -94,5 +116,6 @@ router.get('/paginaPrincipal', (req, res) => {
         res.status(200).render('paginaPrincipal', { posts });
     }
 });
+
 
 module.exports = router;
