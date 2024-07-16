@@ -17,7 +17,7 @@ async function getUsuarioLogado(req) {
     usuarioLogado = await UsuarioDAO.getById(req.id);
 }
 
-router.get('/', async(req, res) => {
+router.get('/', async (req, res) => {
     await getUsuarioLogado(req)
     let postagens = await PostagemDAO.getAll()
 
@@ -58,7 +58,7 @@ router.get('/login', (req, res) => {
     }
 })
 
-router.post('/logar', async(req, res) => {
+router.post('/logar', async (req, res) => {
 
     let email = req.body.email;
     let senha = req.body.password;
@@ -88,7 +88,7 @@ router.get('/cadastroUsuario', (req, res) => {
     res.status(200).render("cadastroUsuario")
 })
 
-router.post('/cadastrar', async(req, res) => {
+router.post('/cadastrar', async (req, res) => {
     let nome = req.body.nome;
     let email = req.body.email;
     let senha = req.body.senha;
@@ -117,5 +117,24 @@ router.get('/paginaPrincipal', (req, res) => {
     }
 });
 
+//postar
+router.post('/criar', async (req, res) => {
+    await getUsuarioLogado(req);
+
+    if (usuarioLogado) {
+        const { titulo, conteudo, dataHora } = req.body;
+        try {
+            const newPostagem = await PostagemDAO.create({
+                idUsuario: usuarioLogado.id, titulo, conteudo, dataHora
+            });
+            res.status(201).json(newPostagem);
+
+        } catch (error) {
+            res.status(500).json({ error: 'erro ao criar postagem' })
+        }
+    } else {
+        res.redirect('/login');
+    }
+});
 
 module.exports = router;

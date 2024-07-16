@@ -30,7 +30,7 @@
     </header>
     {{#if usuarioLogado}}
     <div class="container">
-        <a href="#" class="botao-novo-post">Criar Novo Post</a>
+        <button class="botao-novo-post">Criar novo post</button>
     </div>
     {{/if}}
 
@@ -77,53 +77,61 @@
         </div>
         {{/if}}
 
-
-        <footer>
-            SITUAÇÃO DE APRENDIZAGEM | Desenvolvedores: Thiago Büttner Conradi, Pablo Southier
-        </footer>
-
-
-
-        <!-- Modal para criar novo post -->
-        <div id="modalNovoPost" class="modal">
-            <div class="modal-conteudo">
-                <span class="fechar">&times;</span>
-                <div class="modal-cabecalho">
-                    <h2>Criar Novo Post</h2>
-                </div>
-                <form action="/postagem/create" method="post">
+        <form action="/criar" method="post">
+            <!-- Modal para criar novo post -->
+            <div id="modalNovoPost" class="modal">
+                <div class="modal-conteudo">
+                    <span class="fechar">&times;</span>
+                    <div class="modal-cabecalho">
+                        <h2>Criar Novo Post</h2>
+                    </div>
 
                     <div class="modal-rodape">
+                        <label for="titulo">Título</label>
+                        <input type="text" id="question" name="titulo" placeholder="Seu título">
+                        <label for="descrição">Descrição</label>
+                        <input type="text" id="answer" name="conteudo" placeholder="Seu conteúdo">
                         <button type="submit" id="botao-criar-post">Criar Post</button>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
+    </div>
+    </div>
+    </form>
 
-        <script>
 
-            document.addEventListener("DOMContentLoaded", function () {
+    <footer>
+        SITUAÇÃO DE APRENDIZAGEM | Desenvolvedores: Thiago Büttner Conradi, Pablo Southier
+    </footer>
 
-                const modal = document.getElementById("modalPost");
-                console.log("modal", modal)
-                const bootstrapModal = new bootstrap.Modal(modal);
-                bootstrapModal.show();
 
-                if (usuarioLogado) {
-                    document.getElementById("login").style.display = "none";
-                    document.getElementById("cadastro").style.display = cadastroUsuario;
-                    document.getElementById("nome-usuario").textContent = nomeUsuario;
-                    document.getElementById("info-usuario").style.display = "inline";
-                }
 
-                const postsContainer = document.getElementById("posts");
 
-                function renderizarPosts() {
-                    postsContainer.innerHTML = "";
-                    posts.forEach((post, index) => {
-                        const postElement = document.createElement("div");
-                        postElement.className = "post";
-                        postElement.innerHTML = `
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const modal = document.getElementById("modalPost");
+            console.log("modal", modal)
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+
+            if (usuarioLogado) {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("cadastro").style.display = cadastroUsuario;
+                document.getElementById("nome-usuario").textContent = nomeUsuario;
+                document.getElementById("info-usuario").style.display = "inline";
+            }
+
+            const postsContainer = document.getElementById("posts");
+
+            function renderizarPosts() {
+                postsContainer.innerHTML = "";
+                posts.forEach((post, index) => {
+                    const postElement = document.createElement("div");
+                    postElement.className = "post";
+                    postElement.innerHTML = `
                         <div class="titulo">${post.titulo}</div>
                         <div class="curtir">
                             <!--<div class="coracao" data-curtido="false"></div> -->
@@ -131,132 +139,132 @@
                             <span class="contagem-curtidas">${post.curtidas}</span>
                         </div>
                     `;
-                        postElement.addEventListener("click", () => abrirModal(post));
-                        postsContainer.appendChild(postElement);
+                    postElement.addEventListener("click", () => abrirModal(post));
+                    postsContainer.appendChild(postElement);
+                });
+
+                document.querySelectorAll(".curtir .coracao").forEach(coracao => {
+                    coracao.addEventListener("click", function (event) {
+                        event.stopPropagation(); // Evita que o evento de clique abra a modal
+                        const curtido = this.getAttribute("data-curtido") === "true";
+                        const contagemCurtidasElement = this.nextElementSibling;
+                        let contagemCurtidas = parseInt(contagemCurtidasElement.textContent);
+
+                        if (curtido) {
+                            this.setAttribute("data-curtido", "false");
+                            this.classList.remove("curtido");
+                            this.classList.remove("bi-heart-fill");
+                            this.classList.add("bi-heart")
+                            contagemCurtidasElement.textContent = contagemCurtidas - 1;
+                        } else {
+                            this.setAttribute("data-curtido", "true");
+                            this.classList.add("curtido");
+                            this.classList.add("bi-heart-fill")
+                            this.classList.remove("bi-heart")
+                            contagemCurtidasElement.textContent = contagemCurtidas + 1;
+                        }
                     });
+                });
+            }
 
-                    document.querySelectorAll(".curtir .coracao").forEach(coracao => {
-                        coracao.addEventListener("click", function (event) {
-                            event.stopPropagation(); // Evita que o evento de clique abra a modal
-                            const curtido = this.getAttribute("data-curtido") === "true";
-                            const contagemCurtidasElement = this.nextElementSibling;
-                            let contagemCurtidas = parseInt(contagemCurtidasElement.textContent);
+            renderizarPosts();
 
-                            if (curtido) {
-                                this.setAttribute("data-curtido", "false");
-                                this.classList.remove("curtido");
-                                this.classList.remove("bi-heart-fill");
-                                this.classList.add("bi-heart")
-                                contagemCurtidasElement.textContent = contagemCurtidas - 1;
-                            } else {
-                                this.setAttribute("data-curtido", "true");
-                                this.classList.add("curtido");
-                                this.classList.add("bi-heart-fill")
-                                this.classList.remove("bi-heart")
-                                contagemCurtidasElement.textContent = contagemCurtidas + 1;
-                            }
-                        });
-                    });
-                }
+            // Funcionalidade da modal de exibição de post
+            const modalPost = document.getElementById("modalPost");
+            const fecharModalPost = document.querySelector("#modalPost .close");
 
-                renderizarPosts();
+            function abrirModal(postAberto) {
+                document.getElementById("modal-titulo").textContent = post.titulo;
+                document.getElementById("modal-curtidas").textContent = `${post.curtidas} Curtidas`;
+                document.getElementById("modal-autor").textContent = `Autor: ${post.autor}`;
+                document.getElementById("modal-horario").textContent = `Horário: ${post.horario}`;
+                document.getElementById("modal-descricao").textContent = post.descricao;
 
-                // Funcionalidade da modal de exibição de post
-                const modalPost = document.getElementById("modalPost");
-                const fecharModalPost = document.querySelector("#modalPost .close");
+                const comentariosContainer = document.getElementById("modal-comentarios");
+                comentariosContainer.innerHTML = "";
+                post.comentarios.forEach(comentario => {
+                    const comentarioElement = document.createElement("div");
+                    comentarioElement.className = "comentario";
+                    comentarioElement.innerHTML = `<strong>${comentario.autor}</strong> ${comentario.horario}<br>${comentario.texto}`;
+                    comentariosContainer.appendChild(comentarioElement);
+                });
 
-                function abrirModal(postAberto) {
-                    document.getElementById("modal-titulo").textContent = post.titulo;
-                    document.getElementById("modal-curtidas").textContent = `${post.curtidas} Curtidas`;
-                    document.getElementById("modal-autor").textContent = `Autor: ${post.autor}`;
-                    document.getElementById("modal-horario").textContent = `Horário: ${post.horario}`;
-                    document.getElementById("modal-descricao").textContent = post.descricao;
+                modalPost.style.display = "block";
+            }
 
-                    const comentariosContainer = document.getElementById("modal-comentarios");
-                    comentariosContainer.innerHTML = "";
-                    post.comentarios.forEach(comentario => {
-                        const comentarioElement = document.createElement("div");
-                        comentarioElement.className = "comentario";
-                        comentarioElement.innerHTML = `<strong>${comentario.autor}</strong> ${comentario.horario}<br>${comentario.texto}`;
-                        comentariosContainer.appendChild(comentarioElement);
-                    });
+            span.onclick = function () {
+                modalPost.style.display = "none";
+            }
 
-                    modalPost.style.display = "block";
-                }
-
-                span.onclick = function () {
+            window.onclick = function (event) {
+                if (event.target == modal) {
                     modalPost.style.display = "none";
+
                 }
+            }
 
-                window.onclick = function (event) {
-                    if (event.target == modal) {
-                        modalPost.style.display = "none";
+            const botaoComentario = document.getElementById("botao-comentario");
+            const inputComentario = document.getElementById("input-comentario");
 
-                    }
+            botaoComentario.addEventListener("click", () => {
+                const novoComentario = inputComentario.value.trim();
+                if (novoComentario) {
+                    const comentarioElement = document.createElement("div");
+                    comentarioElement.className = "comentario";
+                    comentarioElement.innerHTML = `<strong>${nomeUsuario}</strong> Agora<br>${novoComentario}`;
+                    document.getElementById("modal-comentarios").appendChild(comentarioElement);
+                    inputComentario.value = "";
                 }
-
-                const botaoComentario = document.getElementById("botao-comentario");
-                const inputComentario = document.getElementById("input-comentario");
-
-                botaoComentario.addEventListener("click", () => {
-                    const novoComentario = inputComentario.value.trim();
-                    if (novoComentario) {
-                        const comentarioElement = document.createElement("div");
-                        comentarioElement.className = "comentario";
-                        comentarioElement.innerHTML = `<strong>${nomeUsuario}</strong> Agora<br>${novoComentario}`;
-                        document.getElementById("modal-comentarios").appendChild(comentarioElement);
-                        inputComentario.value = "";
-                    }
-                });
-
-                // Funcionalidade da modal de criar novo post
-                const modalNovoPost = document.getElementById("modalNovoPost");
-                const abrirModalNovoPost = document.querySelector(".botao-novo-post");
-                const fecharModalNovoPost = document.querySelector("#modalNovoPost .fechar");
-
-                abrirModalNovoPost.addEventListener("click", (event) => {
-                    event.preventDefault();
-                    modalNovoPost.style.display = "block";
-                });
-
-                fecharModalNovoPost.addEventListener("click", () => {
-                    modalNovoPost.style.display = "none";
-                });
-
-                window.addEventListener("click", (event) => {
-                    if (event.target === modalNovoPost) {
-                        modalNovoPost.style.display = "none";
-                    }
-                });
-
-                const botaoCriarPost = document.getElementById("botao-criar-post");
-
-                botaoCriarPost.addEventListener("click", () => {
-                    const titulo = document.getElementById("titulo-novo-post").value.trim();
-                    const descricao = document.getElementById("descricao-novo-post").value.trim();
-
-                    if (titulo && descricao) {
-                        const novoPost = {
-                            titulo: titulo,
-                            curtidas: 0,
-                            autor: nomeUsuario,
-                            horario: new Date().toLocaleTimeString(),
-                            descricao: descricao,
-                            comentarios: []
-                        };
-
-                        posts.push(novoPost);
-                        renderizarPosts();
-
-                        document.getElementById("titulo-novo-post").value = "";
-                        document.getElementById("descricao-novo-post").value = "";
-                        modalNovoPost.style.display = "none";
-                    }
-                });
             });
 
+            // Funcionalidade da modal de criar novo post
+            const modalNovoPost = document.getElementById("modalNovoPost");
+            const abrirModalNovoPost = document.querySelector(".botao-novo-post");
+            const fecharModalNovoPost = document.querySelector("#modalNovoPost.fechar");
 
-        </script>
+            abrirModalNovoPost.addEventListener("click", (event) => {
+                event.preventDefault();
+                modalNovoPost.style.display = "block";
+            });
+
+            fecharModalNovoPost.addEventListener("click", () => {
+                modalNovoPost.style.display = "none";
+            });
+
+            window.addEventListener("click", (event) => {
+                if (event.target === modalNovoPost) {
+                    modalNovoPost.style.display = "none";
+                }
+            });
+
+            const botaoCriarPost = document.getElementById("botao-criar-post");
+
+            botaoCriarPost.addEventListener("click", () => {
+                const titulo = document.getElementById("titulo-novo-post").value.trim();
+                const descricao = document.getElementById("descricao-novo-post").value.trim();
+
+                if (titulo && descricao) {
+                    const novoPost = {
+                        titulo: titulo,
+                        curtidas: 0,
+                        autor: nomeUsuario,
+                        horario: new Date().toLocaleTimeString(),
+                        descricao: descricao,
+                        comentarios: []
+                    };
+
+                    posts.push(novoPost);
+                    renderizarPosts();
+
+                    document.getElementById("titulo-novo-post").value = "";
+                    document.getElementById("descricao-novo-post").value = "";
+                    modalNovoPost.style.display = "none";
+                }
+            });
+        });
+
+
+    </script>
 </body>
 
 </html>
