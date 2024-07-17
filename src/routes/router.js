@@ -5,6 +5,7 @@ const Postagem = require("../models/Postagem")
 const jwt = require('jsonwebtoken');
 const UsuarioDAO = require("../models/dao/UsuarioDAO");
 const PostagemDAO = require("../models/dao/PostagemDAO");
+const RespostaDAO = require("../models/dao/RespostaDAO");
 
 
 
@@ -17,7 +18,7 @@ async function getUsuarioLogado(req) {
     usuarioLogado = await UsuarioDAO.getById(req.id);
 }
 
-router.get('/', async (req, res) => {
+router.get('/', async(req, res) => {
     await getUsuarioLogado(req)
     let postagens = await PostagemDAO.getAll()
 
@@ -31,7 +32,15 @@ router.get('/', async (req, res) => {
         if (postAberto) {
             postAberto = postAberto.get()
             postAberto.autor = await (await UsuarioDAO.getById(postAberto.idUsuario)).get().nome
-            postAberto.dataHora = new Date().toLocaleString('pt-BR', { timezone: 'UTC' });
+            postAberto.dataHora = postAberto.dataHora.toLocaleString('pt-BR', { timezone: 'UTC' });
+            let comentarios = await (RespostaDAO.getAllbypost(postAberto))
+            for (let i = 0; i < comentarios.length; i++) {
+                comentarios[i] = comentarios[i].get()
+                let comentador = await UsuarioDAO.getById(comentarios[i].idUsuario)
+                comentarios[i].autor_comentario = comentador.get().nome
+                console.log(comentarios[i])
+            }
+            postAberto.comentarios = comentarios
         }
     }
 
@@ -58,7 +67,7 @@ router.get('/login', (req, res) => {
     }
 })
 
-router.post('/logar', async (req, res) => {
+router.post('/logar', async(req, res) => {
 
     let email = req.body.email;
     let senha = req.body.password;
@@ -88,7 +97,7 @@ router.get('/cadastroUsuario', (req, res) => {
     res.status(200).render("cadastroUsuario")
 })
 
-router.post('/cadastrar', async (req, res) => {
+router.post('/cadastrar', async(req, res) => {
     let nome = req.body.nome;
     let email = req.body.email;
     let senha = req.body.senha;
@@ -118,23 +127,49 @@ router.get('/paginaPrincipal', (req, res) => {
 });
 
 //postar
-router.post('/criar', async (req, res) => {
+router.post('/criar', async(req, res) => {
     await getUsuarioLogado(req);
 
     if (usuarioLogado) {
-        const { titulo, conteudo, dataHora } = req.body;
+        const { titulo, conteudo } = req.body;
         try {
-            const newPostagem = await PostagemDAO.create({
-                idUsuario: usuarioLogado.id, titulo, conteudo, dataHora
+            newPostagem = await PostagemDAO.create({
+                idUsuario: usuarioLogado.id,
+                titulo,
+                conteudo,
+                dataHora: new Date()
             });
-            res.status(201).json(newPostagem);
+            res.status(201).redirect("/");
 
         } catch (error) {
-            res.status(500).json({ error: 'erro ao criar postagem' })
+            res.status(500).send({ error: 'erro ao criar postagem' })
         }
     } else {
         res.redirect('/login');
     }
 });
+
+//comentar
+router.post('/postage/comentar/:id', async(req, res) => {
+    await getUsuarioLogado(req);
+
+    if (usuarioLogado) {
+
+        try {
+            newResposta = await RespostaDAO.create({
+                idUsuario: usuarioLogado.id,
+                idPostagem: usuarioLogado,
+                conteudo,
+                dataHora: new Date()
+            })
+            res.status(200).redirect("/?post=" + idPostagem);
+
+        } catch (error) {
+            res.status(500).send({ error: 'erro ao fazer um comentário' })
+        }
+    } else {
+        res.redirect('/login');
+    }
+})
 
 module.exports = router;

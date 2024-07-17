@@ -1,4 +1,5 @@
 const res = require('express/lib/response');
+const { where } = require('sequelize');
 const Resposta = require('../Resposta'); // Importe o modelo do usuário
 
 class RespostaDAO {
@@ -19,6 +20,18 @@ class RespostaDAO {
         let respostas;
         try {
             respostas = await Resposta.findAll();
+        } catch (error) {
+            console.error('Erro ao buscar respostas:', error);
+        } finally {
+            return respostas;
+        }
+    }
+
+    // Busca todas as respostas do banco de dados
+    async getAllbypost(post) {
+        let respostas;
+        try {
+            respostas = await Resposta.findAll({ where: { idPostagem: post.id } });
         } catch (error) {
             console.error('Erro ao buscar respostas:', error);
         } finally {

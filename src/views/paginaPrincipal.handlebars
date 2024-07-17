@@ -7,6 +7,8 @@
     <title>Fórum Senai</title>
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
     <link href='https://fonts.googleapis.com/css?family=ADLaM Display' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 </head>
 
 <body>
@@ -28,9 +30,12 @@
         </nav>
 
     </header>
+
     {{#if usuarioLogado}}
     <div class="container">
-        <button class="botao-novo-post">Criar novo post</button>
+        <button class="botao-novo-post btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNovoPost">Criar
+            novo
+            post</button>
     </div>
     {{/if}}
 
@@ -48,34 +53,50 @@
         <!-- Modal para exibir post -->
         <div id="modalPost" class="modal">
             <div class="modal-conteudo">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modalPost" aria-label="Close"></button>
                 <div class="modal-cabecalho">
                     <h2 id="modal-titulo">{{postAberto.titulo}}</h2>
                     <span id="modal-curtidas">0 Curtidas</span>
 
                 </div>
 
-                <div class="modal-corpo">
-                    <div class="info-post">
-                        <span id="modal-autor">Autor: {{postAberto.autor}}</span>
-                        <span id="modal-horario">Horário: {{postAberto.dataHora}}</span>
+                <form action="/postage/comentar/{{postAberto.id}}" method="post">
+
+                    <div class="modal-corpo">
+                        <div class="info-post">
+                            <span id="modal-autor">Autor: {{postAberto.autor}}</span>
+                            <span id="modal-horario">Horário: {{postAberto.dataHora}}</span>
+                        </div>
+                        <div class="descricao-post" id="modal-descricao">
+                            <p>{{postAberto.conteudo}}</p>
+                        </div>
+                        <div class="comentarios" id="modal-comentarios">
+                            <!-- Comentários  -->
+
+                            {{#each postAberto.comentarios}}
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{this.autor_comentario}}</h5>
+                                    <h6>{{this.dataHora}}</h6>
+                                    <p class="card-text">{{this.conteudo}}</p>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
                     </div>
-                    <div class="descricao-post" id="modal-descricao">
-                        <p>{{postAberto.conteudo}}</p>
-                    </div>
-                    <div class="comentarios" id="modal-comentarios">
-                        <!-- Comentários  -->
-                    </div>
-                </div>
 
 
-                <div class="modal-rodape">
-                    <input type="text" id="input-comentario" placeholder="Adicionar um comentário...">
-                    <button id="botao-comentario"><i class="fas fa-paper-plane"></i></button>
-                </div>
+                    <div class="modal-rodape">
+                        <input type="text" id="input-comentario" placeholder="Adicionar um comentário...">
+                        <button id="botao-comentario"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </form>
             </div>
+
         </div>
         {{/if}}
+
+
 
         <form action="/criar" method="post">
             <!-- Modal para criar novo post -->
