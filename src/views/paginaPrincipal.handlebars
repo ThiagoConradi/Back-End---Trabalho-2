@@ -45,20 +45,41 @@
             <div class="post">
                 <a style="text-decoration: none; color:inherit" href="/?idPost={{this.id}}"><label
                         for="titulo-novo-post">{{this.titulo}}</label></a>
+                <form action="/postage/curtida/{{this.id}}" method="POST">
+                    {{#if this.curtido}}
+                    <button class="btn btn-light" type="submit"><i class="bi bi-heart-fill" style="color: red;"></i>
+                        {{this.curtidas}}
+                    </button>
+                    {{else}}
+                    <button class="btn btn-light" type="submit"><i class="bi bi-heart" style="color: red;"></i>
+                        {{this.curtidas}}
+                    </button>
+                    {{/if}}
+                </form>
             </div>
             {{/each}}
         </div>
+
 
         {{#if postAberto}}
         <!-- Modal para exibir post -->
         <div id="modalPost" class="modal">
             <div class="modal-conteudo">
-                <button type="button" class="btn-close" data-bs-dismiss="modalPost" aria-label="Close"></button>
                 <div class="modal-cabecalho">
+                    <button type="button" class="btn-close" data-bs-dismiss="modalPost" aria-label="Close"></button>
                     <h2 id="modal-titulo">{{postAberto.titulo}}</h2>
                     <span id="modal-curtidas">0 Curtidas</span>
-
+                    {{#if this.curtido}}
+                    <button class="btn btn-light" type="submit"><i class="bi bi-heart-fill" style="color: red;"></i>
+                        {{this.curtidas}}
+                    </button>
+                    {{else}}
+                    <button class="btn btn-light" type="submit"><i class="bi bi-heart" style="color: red;"></i>
+                        {{this.curtidas}}
+                    </button>
+                    {{/if}}
                 </div>
+
 
                 <form action="/postage/comentar/{{postAberto.id}}" method="post">
 
@@ -70,24 +91,29 @@
                         <div class="descricao-post" id="modal-descricao">
                             <p>{{postAberto.conteudo}}</p>
                         </div>
-                        <div class="comentarios" id="modal-comentarios">
-                            <!-- Comentários  -->
 
-                            {{#each postAberto.comentarios}}
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{this.autor_comentario}}</h5>
-                                    <h6>{{this.dataHora}}</h6>
-                                    <p class="card-text">{{this.conteudo}}</p>
+
+                        <div class="card" id="posts">
+
+                            <div class="comentarios" id="modal-comentarios">
+                                <!-- Comentários  -->
+
+                                {{#each postAberto.comentarios}}
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{this.autor_comentario}}</h5>
+                                        <h6>Horário: {{this.dataHora}}</h6>
+                                        <p class="card-text">{{this.conteudo}}</p>
+                                    </div>
                                 </div>
+                                {{/each}}
                             </div>
-                            {{/each}}
                         </div>
                     </div>
 
-
                     <div class="modal-rodape">
-                        <input type="text" id="input-comentario" placeholder="Adicionar um comentário...">
+                        <input name="conteudo" type="text" id="input-comentario"
+                            placeholder="Adicionar um comentário...">
                         <button id="botao-comentario"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </form>

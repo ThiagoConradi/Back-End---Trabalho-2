@@ -43,6 +43,78 @@ nav a:hover {
     font-family: 'ADLaM Display';
 }
 
+
+/* Estilo geral para os cards */
+
+.card {
+    background-color: #f9f9f9;
+    /* Fundo claro */
+    border: 1px solid #e0e0e0;
+    /* Borda suave */
+    border-radius: 10px;
+    /* Cantos arredondados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Sombra leve */
+    margin-bottom: 15px;
+    /* Espaço inferior entre os cards */
+}
+
+
+/* Estilo para o corpo do card */
+
+.card-body {
+    padding: 20px;
+    /* Espaçamento interno */
+}
+
+
+/* Estilo para o título do card (nome do autor) */
+
+.card-title {
+    font-size: 1.2em;
+    /* Tamanho da fonte maior */
+    color: #333;
+    /* Cor do texto */
+    margin-bottom: 5px;
+    /* Espaço inferior */
+}
+
+
+/* Estilo para a data e hora */
+
+.card-body h6 {
+    font-size: 0.9em;
+    /* Tamanho da fonte menor */
+    color: #888;
+    /* Cor cinza suave */
+    margin-bottom: 10px;
+    /* Espaço inferior */
+}
+
+
+/* Estilo para o conteúdo do comentário */
+
+.card-text {
+    font-size: 1em;
+    /* Tamanho da fonte normal */
+    color: #555;
+    /* Cor do texto */
+    line-height: 1.5;
+    /* Altura da linha */
+}
+
+
+/* Adicionando uma transição suave para hover */
+
+.card:hover {
+    transform: translateY(-2px);
+    /* Movimento leve para cima */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    /* Sombra mais intensa */
+    transition: all 0.3s ease-in-out;
+    /* Transição suave */
+}
+
 .botao-novo-post {
     display: inline-block;
     background-color: #007bff;
@@ -74,24 +146,6 @@ nav a:hover {
     font-weight: bold;
 }
 
-.curtir {
-    display: flex;
-    align-items: center;
-}
-
-.coracao {
-    width: 24px;
-    height: 24px;
-    background-size: contain;
-    cursor: pointer;
-    margin-right: 5px;
-}
-
-.coracao.curtido {
-    background-size: contain;
-    color: red;
-}
-
 .modal {
     display: none;
     position: fixed;
@@ -114,17 +168,6 @@ nav a:hover {
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     animation: animacaoModal 0.3s;
-}
-
-@keyframes animacaoModal {
-    from {
-        top: -300px;
-        opacity: 0
-    }
-    to {
-        top: 0;
-        opacity: 1
-    }
 }
 
 .fechar {

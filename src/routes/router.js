@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const UsuarioDAO = require("../models/dao/UsuarioDAO");
 const PostagemDAO = require("../models/dao/PostagemDAO");
 const RespostaDAO = require("../models/dao/RespostaDAO");
+const CurtidaDAO = require("../models/dao/CurtidaDAO");
+const Curtida = require("../models/Curtida");
 
 
 
@@ -22,7 +24,20 @@ router.get('/', async(req, res) => {
     await getUsuarioLogado(req)
     let postagens = await PostagemDAO.getAll()
 
-    if (postagens) postagens = postagens.map(postagens => postagens.get())
+    if (postagens) {
+        postagens = postagens.map(postagens => postagens.get())
+        for (let i = 0; i < postagens.length; i++) {
+            let curtidasPost = await Curtida.findAll({ where: { idPostagem: postagens[i].id } });
+            let ctdCurtidasPost = curtidasPost.length;
+            postagens[i].curtidas = ctdCurtidasPost;
+            postagens[i].dataHora = postagens[i].dataHora.toLocaleString('pt-BR', { timezone: 'UTC' });
+            postagens[i].curtido = await Curtida.findOne({ where: { idPostagem: postagens[i].id, idUsuario: usuarioLogado.id } })
+            console.log(postagens[i].curtidas, "batatinha")
+            console.log(postagens[i].curtido, "abacaxi")
+
+        }
+
+    }
 
     const idPost = req.query.idPost;
     let postAberto
@@ -38,8 +53,10 @@ router.get('/', async(req, res) => {
                 comentarios[i] = comentarios[i].get()
                 let comentador = await UsuarioDAO.getById(comentarios[i].idUsuario)
                 comentarios[i].autor_comentario = comentador.get().nome
+                comentarios[i].dataHora = comentarios[i].dataHora.toLocaleString('pt-BR', { timezone: 'UTC' });
                 console.log(comentarios[i])
             }
+
             postAberto.comentarios = comentarios
         }
     }
@@ -153,16 +170,19 @@ router.post('/criar', async(req, res) => {
 router.post('/postage/comentar/:id', async(req, res) => {
     await getUsuarioLogado(req);
 
-    if (usuarioLogado) {
+    let idPostagem = req.params.id;
+    let conteudo = req.body.conteudo;
 
+    if (usuarioLogado) {
         try {
             newResposta = await RespostaDAO.create({
                 idUsuario: usuarioLogado.id,
-                idPostagem: usuarioLogado,
-                conteudo,
+                idPostagem: idPostagem,
+                conteudo: conteudo,
                 dataHora: new Date()
             })
-            res.status(200).redirect("/?post=" + idPostagem);
+
+            res.redirect('/?idPost=' + idPostagem)
 
         } catch (error) {
             res.status(500).send({ error: 'erro ao fazer um comentário' })
@@ -170,6 +190,32 @@ router.post('/postage/comentar/:id', async(req, res) => {
     } else {
         res.redirect('/login');
     }
+})
+
+//curtida
+
+router.post("/postage/curtida/:id", async(req, res) => {
+    await getUsuarioLogado(req);
+
+
+
+    if (usuarioLogado) {
+        let idPostagem = req.params.id;
+
+        let curtida = await Curtida.findOne({ idPostagem: idPostagem, idUsuario: usuarioLogado.id })
+
+        if (curtida) {
+            CurtidaDAO.delete(curtida.id)
+        } else {
+            CurtidaDAO.create({ idUsuario: usuarioLogado.id, idPostagem: idPostagem })
+        }
+
+        res.redirect("/")
+    }
+
+
+
+
 })
 
 module.exports = router;
